@@ -1,0 +1,61 @@
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: Install DNF and Epel-release in CentOS server
+    yum:
+      name:
+        - epel-release
+        - dnf
+    when: ansible_distribution == "CentOS"
+
+  - name: Update the CentOS server
+    dnf:
+      update_cache: yes
+      name:  "*"
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+  - name: Dpkg Configure of Ubuntu server
+    shell:
+      dpkg --configure -a
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Update the Ubuntu server
+    apt:
+      update_cache: yes
+      upgrade: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: Ubuntu_Remote_server
+  become: true
+  roles:
+    - { role: Ubuntu_Ent_Ser }
+    - { role: Ubuntu_Mon_Tool }
+  tasks:
+
+  - name: Creating Banner Motd In Ubuntu
+    copy:
+      content: "Ansible Managed by Grant"
+      dest: /etc/motd
+
+  - name: Show Banner
+    debug:
+      msg: "Ansible Managed by Grant"
+
+
+- hosts: CentOS_Remote_server
+  become: true
+  roles:
+    - { role: CentOS_Ent_Ser }
+    - { role: CentOS_Mon_Tool }
+  tasks:
+
+  - name: Creating Banner Motd In CentOS
+    copy:
+      content: "Ansible Managed by Grant"
+      dest: /etc/motd
+
+  - name: Show Banner
+    debug:
+      msg: "Ansible Managed by Grant"

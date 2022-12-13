@@ -1,0 +1,26 @@
+#Ubuntu Install and Configure Monitoring Tool
+
+- name: Installing Promethues and other packages
+  tags: Ubuntu_packs
+  apt:
+    name:
+      - apache2
+      - prometheus
+    state: latest
+
+- name: Open port 9090
+  shell: 
+    sudo ufw allow 9090/tcp
+
+- name: Restart Apache2 Service
+  service:
+    name: apache2
+    state: restarted
+    enabled: true
+
+- name: Restart Prometheus Service
+  service:
+    name: prometheus
+    state: restarted
+    enabled: true
+

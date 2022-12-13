@@ -1,0 +1,21 @@
+#CentOS Install and Configure Entrerprise Service
+
+  - name: Install Httpd, PHP and Mariadb Package
+    dnf:
+      name:
+        - httpd
+        - php
+        - mariadb-server
+      state: latest
+
+  - name: Mariadb Service Restart
+    service:
+      name: mariadb
+      state: restarted
+      enabled: true
+
+  - name: Httpd Service Restart
+    service:
+      name: httpd
+      state: restarted
+      enabled: true

@@ -1,0 +1,20 @@
+#Ubuntu Install and Configure Enterprise Services
+  - name: Install Apache2, PHP, Mariadb Packages
+    apt:
+      name:
+        - apache2
+        - libapache2-mod-php
+        - mariadb-server
+      state: latest
+
+  - name: Mariadb Service Restart
+    service:
+      name: mariadb
+      state: restarted
+      enabled: true
+
+  - name: Apache2 Service Restart
+    service:
+      name: apache2
+      state: restarted
+      enabled: true
